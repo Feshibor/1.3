@@ -2,38 +2,31 @@ CC = gcc
 CFLAGS = -Wall -Werror -Wextra -Wpedantic -fsanitize=address
 CLIBS = -lm
 
-# Основные файлы
 SOURCES = main.c functions.c
 TEST_SOURCES = tests.c functions.c
 
-# Имя исполняемых файлов
 EXECUTABLE = main
 TEST_EXECUTABLE = tests
 
 .PHONY: all test clean unit_test integration_test
 
-# Сборка основного исполняемого файла
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(SOURCES)
 	@$(CC) $(CFLAGS) $(SOURCES) -o $(EXECUTABLE) $(CLIBS)
 
-# Сборка тестов
 $(TEST_EXECUTABLE): $(TEST_SOURCES)
 	@$(CC) $(CFLAGS) $(TEST_SOURCES) -o $(TEST_EXECUTABLE) $(CLIBS)
 
-# Очистка
 clean:
 	@rm -f $(EXECUTABLE) $(TEST_EXECUTABLE)
 
-# Запуск unit тестов
 unit_test: $(TEST_EXECUTABLE)
 	@echo "=== Running unit tests ==="
 	@./$(TEST_EXECUTABLE)
 	@echo "=== Unit tests completed ==="
 	@echo ""
 
-# Простейшие интеграционные тесты
 integration_test: $(EXECUTABLE)
 	@echo "=== Running integration tests ==="
 	@echo "Test 1: Invalid number input"
@@ -45,7 +38,6 @@ integration_test: $(EXECUTABLE)
 
 	@echo "=== Integration tests completed ==="
 
-# Запуск всех тестов
 test: unit_test integration_test
 	@echo ""
 	@echo "=== All tests completed successfully! ==="
